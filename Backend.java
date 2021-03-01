@@ -1,10 +1,8 @@
+import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.io.Reader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.BufferedReader;
+import java.util.zip.DataFormatException;
 
 
 public class Backend implements BackendInterface {
@@ -17,17 +15,22 @@ public class Backend implements BackendInterface {
 	private List<String> ratings;
 	private List<String> allGenres;
 	
-	public Backend (String[] args) {
+	public Backend (String[] args) throws FileNotFoundException {
 		genreHash = new HashTableMap<String, List<MovieInterface>>();
 		rateHash = new HashTableMap<String, List<MovieInterface>>();
 		genres = new ArrayList<String>();
 		ratings = new ArrayList<String>();
 		FileReader reader = new FileReader(args[0]);
 		BufferedReader file = new BufferedReader(reader);
-		objList = readDataSet(file);
+		MovieDataReader movieDataReader = new MovieDataReader();
+		try {
+			objList = movieDataReader.readDataSet(file);
+		} catch (DataFormatException | IOException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
 		populateGenreHash();
 		populateRatingHash();
-			
 	}
 	
 	public Backend (Reader r) {
@@ -35,7 +38,13 @@ public class Backend implements BackendInterface {
 		rateHash = new HashTableMap<String, List<MovieInterface>>();
 		genres = new ArrayList<String>();
 		ratings = new ArrayList<String>();
-		objList = readDataSet(r);
+		MovieDataReader movieDataReader = new MovieDataReader();
+		try {
+			objList = movieDataReader.readDataSet(r);
+		} catch (DataFormatException | IOException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
 		populateGenreHash();
 		populateRatingHash();
 	
@@ -61,7 +70,7 @@ public class Backend implements BackendInterface {
 	}
 	
 	private void populateRatingHash() {
-		for (Float i = 10f; i > 0; i--) {
+		for (float i = 10f; i > 0; i--) {
 			List<MovieInterface> votes = new ArrayList<MovieInterface>();
 			for (MovieInterface m: objList) {
 				Float vote = m.getAvgVote();
@@ -136,7 +145,7 @@ public class Backend implements BackendInterface {
 	public List<MovieInterface> getThreeMovies(int startingIndex) {
 		List<MovieInterface> toReturn = new ArrayList<MovieInterface>();
 		List<MovieInterface> movies = getSelectedMovies();
-		Collections.sort(movies, Collections.reverseOrder());
+		movies.sort(Collections.reverseOrder());
 		for (int m = startingIndex; m < startingIndex+3; m++) {
 			try {
 				toReturn.add(movies.get(m));
@@ -146,7 +155,7 @@ public class Backend implements BackendInterface {
 			}
 		}
 
-		return movies;
+		return toReturn;
 		
 	}
 	

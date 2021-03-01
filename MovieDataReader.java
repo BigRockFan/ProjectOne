@@ -10,10 +10,7 @@
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.zip.DataFormatException;
 
 /**
@@ -47,12 +44,13 @@ public class MovieDataReader implements MovieDataReaderInterface {
         for (int i = 0; i < headers.length; i++) {
           table.put(i, headers[i]);
         }
-        placer = inScan.next();
+        inScan.nextLine();
+        placer = inScan.nextLine();
         while (placer != null) {
           // this splits the actual movie attributes and checks if the column size is off (if any
               // of them are missing).
           String[] splitter = placer.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1); //*see header*
-          if (splitter.length != parameters.length) {
+          if (splitter.length != table.size()) {
             throw new DataFormatException("Mismatch error, column amount is inaccurate");
           }
           // fields for movie
