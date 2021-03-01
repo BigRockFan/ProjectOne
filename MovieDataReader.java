@@ -10,10 +10,7 @@
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.zip.DataFormatException;
 
 /**
@@ -34,8 +31,9 @@ public class MovieDataReader implements MovieDataReaderInterface {
   public List<MovieInterface> readDataSet(Reader inputFileReader)
     throws IOException, DataFormatException {
     // creates a hash, movieList, and the correct attributes array to add to a movie
-    HashMap<Integer, String> table = new HashMap<Integer, String>();
+    HashTableMap<Integer, String> table = new HashTableMap<Integer, String>();
     List<MovieInterface> movieList = new ArrayList<MovieInterface>();
+    int x = 0;
     String[] parameters = {"title", "year", "genre", "director", "description", "avg_vote"};
     try {
       Scanner inScan = new Scanner(inputFileReader);
@@ -47,12 +45,13 @@ public class MovieDataReader implements MovieDataReaderInterface {
         for (int i = 0; i < headers.length; i++) {
           table.put(i, headers[i]);
         }
-        placer = inScan.next();
-        while (placer != null) {
+        inScan.nextLine();
+        while (inScan.hasNextLine()) {
+          placer = inScan.nextLine();
           // this splits the actual movie attributes and checks if the column size is off (if any
               // of them are missing).
           String[] splitter = placer.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1); //*see header*
-          if (splitter.length != parameters.length) {
+          if (splitter.length != table.size()) {
             throw new DataFormatException("Mismatch error, column amount is inaccurate");
           }
           // fields for movie
@@ -61,44 +60,46 @@ public class MovieDataReader implements MovieDataReaderInterface {
           List<String> genres = new ArrayList<>();
           String dir = "";
           String descr = "";
-          Float avgV = 0.0f; int index = 0;
+          Float avgV = 0.0f;
+          int index = 0;
           // checks for each field above that if it is a required category to add then it is set to
               // the correct CSV value
           for (int i = 0; i < splitter.length; i++) {
             if (table.get(i).equals(parameters[index])) {
               if (parameters[index].equals("title")) {
                 if (splitter[i].length() > 0 && splitter[i].charAt(0) == '"') {
-                 splitter[i] = MovieDataReader.splitHelper(splitter[i]);
+                  splitter[i] = MovieDataReader.splitHelper(splitter[i]);
                 }
-                t = splitter[i]; index++; break;
+                t = splitter[i];
+              } else if (parameters[index].equals("year")) {
+                yr = Integer.parseInt(splitter[i]);
+              } else if (parameters[index].equals("genre")) {
+                if (splitter[i].length() > 0 && splitter[i].charAt(0) == '"') {
+                  splitter[i] = MovieDataReader.splitHelper(splitter[i]);
+                }
+                String[] genresSplit = splitter[i].split(",");
+                List<String> temp = new ArrayList<>();
+                for (int j = 0; j < genresSplit.length; j++) {
+                  temp.add(genresSplit[j].trim());
+                }
+                genres = temp;
+              } else if (parameters[index].equals("director")) {
+                if (splitter[i].length() > 0 && splitter[i].charAt(0) == '"') {
+                  splitter[i] = MovieDataReader.splitHelper(splitter[i]);
+                }
+                dir = splitter[i];
+              } else if (parameters[index].equals("description")) {
+                if (splitter[i].length() > 0 && splitter[i].charAt(0) == '"') {
+                  splitter[i] = MovieDataReader.splitHelper(splitter[i]);
+                }
+                descr = splitter[i];
+              } else if (parameters[index].equals("avg_vote")) {
+                avgV = Float.parseFloat(splitter[i]);
+              } else {
+                // continue when the field is not one the required ones, like duration, or language
+                continue;
               }
-            }else if (parameters[index].equals("yr")) {
-              yr = Integer.parseInt(splitter[i]); index++; break;
-            }else if (parameters[index].equals("genre")) {
-              if (splitter[i].length() > 0 && splitter[i].charAt(0) == '"') {
-                splitter[i] = MovieDataReader.splitHelper(splitter[i]);
-              }
-              String[] genresSplit = splitter[i].split(",");
-              List<String> temp = new ArrayList<>();
-              for (int j = 0; j < genresSplit.length; j++) {
-                temp.add(genresSplit[j].trim());
-              }
-              genres = temp; break;
-            } else if (parameters[index].equals("director")) {
-              if (splitter[i].length() > 0 && splitter[i].charAt(0) == '"') {
-               splitter[i] = MovieDataReader.splitHelper(splitter[i]);
-              }
-              dir = splitter[i]; index++; break;
-            } else if (parameters[index].equals("description")) {
-              if (splitter[i].length() > 0 && splitter[i].charAt(0) == '"') {
-               splitter[i] = MovieDataReader.splitHelper(splitter[i]);
-              }
-              descr = splitter[i]; index++; break;
-            } else if (parameters[index].equals("avgV")) {
-              avgV = Float.parseFloat(splitter[i]); break;
-            }else {
-              // continue when the field is not one the required ones, like duration, or language
-              continue;
+              index++;
             }
           }
           // add a new movie into the list with all the attributes
@@ -109,7 +110,7 @@ public class MovieDataReader implements MovieDataReaderInterface {
     }catch (IOException e) { 
       throw new IOException("File processing has encountered an error");
     }
-    return null;
+    return movieList;
   }
   
   /**
