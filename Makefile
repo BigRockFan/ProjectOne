@@ -1,5 +1,4 @@
 run: compile
-	@echo "FIXME: *make run* or just *make* should be the default target which compiles (when needed) and executes your code."
 	java Frontend
 
 compile: Backend.class BackendInterface.class Frontend.class HashTableMap.class MapADT.class Movie.class MovieDataReader.class MovieDataReaderInterface.class MovieInterface.class Pair.class
