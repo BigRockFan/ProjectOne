@@ -88,10 +88,12 @@ public class Frontend {
                 baseMode(Integer.parseInt(s) - 1, frontend, b1, scan);
                 return;
             }
+            else if (Integer.parseInt(s) <= 0 || Integer.parseInt(s) > b1.getNumberOfMovies()) {
+                System.out.println("Invalid rank - there are no movies at this rank.");
+            }
             // if the user provides the program with an improper command
             else {
                 System.out.println("Incorrect command. Please try again!");
-                continue;
             }
         }
     }
@@ -175,7 +177,7 @@ public class Frontend {
                     // checks to see if the rating entered is between 0 and 10 and not already in selected ratings
                     if (intRating <= 10 && intRating >= 0 && !b1.getAvgRatings().contains(rating)) {
                         // adds the rating
-                        b.addAvgRating(rating);
+                        b.addAvgRating(rating+".0");
                     }
                     else
                         System.out.println("Rating is invalid or already selected.");
@@ -195,7 +197,7 @@ public class Frontend {
                     // checks to see if the rating entered is between 0 and 10 and is currently selected
                     if (intRating <= 10 && intRating >= 0 && b1.getAvgRatings().contains(rating)) {
                         // removes the rating
-                        b.removeAvgRating(rating);
+                        b.removeAvgRating(rating+".0");
                     }
                     else
                         System.out.println("Rating is invalid or not currently selected.");
@@ -211,9 +213,14 @@ public class Frontend {
 
     private static void displayThreeMovies(int index) {
         int indexOfThree = 0;
+        System.out.println(index);
         for (int i = index; i < index+3; i++) {
-            MovieInterface movie = b1.getThreeMovies(index).get(indexOfThree);
-            System.out.printf((i+1)+") %-40.40s  %-40.40s  "+movie.getAvgVote()+"%n", movie.getTitle(), movie.getGenres());
+            try {
+                MovieInterface movie = b1.getThreeMovies(index).get(indexOfThree);
+                System.out.printf((i + 1) + ") %-40.40s  %-40.40s  " + movie.getAvgVote() + "%n", movie.getTitle(), movie.getGenres());
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println(" ~~~~~~ No movie to print ~~~~~~ ");
+            }
             indexOfThree++;
         }
         System.out.println();
