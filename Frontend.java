@@ -19,7 +19,7 @@ public class Frontend {
     public Frontend() {
         BufferedReader filein = null;
         try {
-            FileReader reader = new FileReader("src/movies.csv");
+            FileReader reader = new FileReader("movies.csv");
             filein = new BufferedReader(reader);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -69,7 +69,7 @@ public class Frontend {
             }else {
                 displayThreeMovies(index);
             }
-            System.out.println("Please enter a command\nType a number to navigate to that movie\nPress r to get into ratings mode\nPress g to get into genre mode\nPress x to exit");
+            System.out.println("Please enter a command:\nType a number to navigate to that movie\nPress r to get into ratings mode\nPress g to get into genre mode\nPress x to exit");
             // retrieving the command from the user
             String s = scan.nextLine().toLowerCase();
             // if the user wants to go into the genre mode
@@ -161,7 +161,7 @@ public class Frontend {
             System.out.println("Currently selected: " + b1.getAvgRatings());
 
             // prompts user to see if they want to either select or deselect the rating
-            System.out.println("Would you like to select or deselect the rating? select/deselect");
+            System.out.println("Would you like to select or deselect the rating? select/deselect/exit(x)");
             String ratingSelector = scan.nextLine();
             // checks to see if the user wants to select the rating
             if (ratingSelector.equals("select")) {
