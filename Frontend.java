@@ -82,6 +82,7 @@ public class Frontend {
             }
             // if the user wants to exit
             else if(s.equals("x")) {
+                System.out.println("\nThank you for using Movie Mapper!");
                 return;
             }
             else if (Integer.parseInt(s) <= b1.getNumberOfMovies() && Integer.parseInt(s) > 0) {
