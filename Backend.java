@@ -149,13 +149,29 @@ public class Backend implements BackendInterface {
 			for (MovieInterface m: movies) {
 				if (!toReturn.contains(m)) // ensures that there are no repeats 
 					toReturn.add(m);
+				// Note: if genres is empty, so is toReturn
 			}
 		}
-		// now we have to remove the movies from toReturn that don't have the selected ratings 
-		for (MovieInterface m: toReturn) {
-			if (!ratings.contains(Float.toString(m.getAvgVote())))
-				toReturn.remove(m);
-		}	
+		// We need to make sure ratings is not empty before proceeding
+		// to remove or add anything  
+		if (!ratings.isEmpty()) {
+			if (genres.isEmpty()) { // Confirms that only movies with selected ratings will be added
+				for (String r: ratings) {
+					List<MovieInterface> movies = rateHash.get(r); // list of movies with a specific rating 
+					for (MovieInterface m: movies) {
+						if (!toReturn.contains(m)) // ensures that there are no repeats
+							toReturn.add(m);			
+					}
+				}
+				return toReturn;
+			}
+			// if both toReturn and ratings are not empty, then we should 
+			// remove movies from toReturn that don't have the selected ratings.
+			for (MovieInterface m: toReturn) {
+				if (!ratings.contains(Float.toString(m.getAvgVote())))
+					toReturn.remove(m);		
+			}
+		}
 		return toReturn;
 	}
 	
