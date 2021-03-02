@@ -165,7 +165,8 @@ public class Backend implements BackendInterface {
 	 */
 	@Override
 	public void addGenre(String genre) {
-		genres.add(genre);
+		if (!genres.contains(genre))
+			genres.add(genre);
 	}
 	
 	/**
@@ -174,7 +175,8 @@ public class Backend implements BackendInterface {
 	 */
 	@Override
 	public void addAvgRating(String rating) {
-		ratings.add(rating);
+		if (!ratings.contains(rating))
+			ratings.add(rating);	
 	}
 	
 	/**
