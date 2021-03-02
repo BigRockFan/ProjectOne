@@ -87,8 +87,10 @@ public class Frontend {
             else if(s.equals("x")) {
                 return;
             }
-            else if (Integer.parseInt(s) <= b1.getNumberOfMovies() && Integer.parseInt(s) > 0)
-                baseMode(Integer.parseInt(s)-1, frontend, b1, scan);
+            else if (Integer.parseInt(s) <= b1.getNumberOfMovies() && Integer.parseInt(s) > 0) {
+                baseMode(Integer.parseInt(s) - 1, frontend, b1, scan);
+                return;
+            }
             // if the user provides the program with an improper command
             else {
                 System.out.println("Incorrect command. Please try again!");
