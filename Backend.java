@@ -123,16 +123,15 @@ public class Backend implements BackendInterface {
 		// In the outer loop, the variable is the rating itself. 
 		// We start from rating 10 and go down to 0 to ensure that the 
 		// order of the ratings lists are in descending order. 
-		for (Float i = 10f; i > 0; i--) { 
-			List<MovieInterface> votes = new ArrayList<MovieInterface>(); 
+		for (Float i = 10f; i >= 0; i--) { 
+			List<MovieInterface> movies = new ArrayList<MovieInterface>(); 
 			// this for loop iterates through the list of all movies and compares its vote with i 
 			for (MovieInterface m: objList) {
 				Float vote = m.getAvgVote();
-				if (vote == 10 || (vote < i && vote >= i-1)) 
-					votes.add(m); // the movie gets added if the vote is in the current range 
-								  // or if it's 10 
+				if (vote < i+1 && vote >= i)
+					movies.add(m); // the movie gets added if the vote is in the current range 							 
 			}
-			rateHash.put(Float.toString(i-1), votes); 
+			rateHash.put(Float.toString(i), movies); 
 		}
 	}
 	
