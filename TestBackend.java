@@ -1,3 +1,12 @@
+// --== CS400 File Header Information ==--
+// Name: Vikas Raaja 
+// Email: ravinderaraa@wisc.edu
+// Team: JC Red
+// Role: Backend Developer
+// TA: Xinyi Liu
+// Lecturer: Gary Dahl
+// Notes to Grader: I only wrote the last 2 methods; I made a few changes to the overall formatting for cleanliness.
+
 import java.io.StringReader;
 
 /**
