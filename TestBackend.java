@@ -166,7 +166,7 @@ public class TestBackend {
          */
         public boolean testRemoveGenre() {
                 try {
-                        BackendInterface backendToTest =  new Backend(new StringReader(
+                        BackendInterface backendToTest = new Backend(new StringReader(
                         		"title,original_title,year,genre,duration,country,language,director,writer,production_company,actors,description,avg_vote\n"
                                         + "The Source of Shadows,The Source of Shadows,2020,Horror,83,USA,English,\"Ryan Bury, Jennifer Bonior\",\"Jennifer Bonior, Trevor Botkin\",Four Thieves Productions,\"Ashleigh Allard, "
                                         + "Tom Bonington, Eliane Gagnon, Marissa Kaye Grinestaff, Jenna Heffernan, Joshua Hummel, Janice Kingsley, Chris Labasbas, Jared Laufree, Dominic Lee, Vic May, Sienna Mazzone, "
