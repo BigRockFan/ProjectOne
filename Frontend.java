@@ -213,7 +213,6 @@ public class Frontend {
 
     private static void displayThreeMovies(int index) {
         int indexOfThree = 0;
-        System.out.println(index);
         for (int i = index; i < index+3; i++) {
             try {
                 MovieInterface movie = b1.getThreeMovies(index).get(indexOfThree);
