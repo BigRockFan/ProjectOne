@@ -166,9 +166,25 @@ public class Backend implements BackendInterface {
 			}
 			// if both toReturn and ratings are not empty, then we should 
 			// remove movies from toReturn that don't have the selected ratings.
+			
+			// First, we create a local list that has all the ratings as Floats
+			List<Float> rateNS = new ArrayList<Float>();
+			for (String r: ratings) {
+				rateNS.add(Float.parseFloat(r));
+			}
+			// Then, we traverse through both toReturn and rateNS
 			for (MovieInterface m: toReturn) {
-				if (!ratings.contains(Float.toString(m.getAvgVote())))
-					toReturn.remove(m);		
+				for (int i = 0; i < rateNS.size(); i++) {
+					Float vote = m.getAvgVote();
+					// We check if a movie's vote falls in at least one of the 
+					// selected rating ranges.
+					if (vote < rateNS.get(i)+1 && vote >= rateNS.get(i))
+						break;
+					// if a movie's vote doesn't fall within any range after iterating 
+					// through every rating, we can remove it.
+					if (i == rateNS.size()-1)
+						toReturn.remove(m);
+				}
 			}
 		}
 		return toReturn;
