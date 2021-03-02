@@ -8,12 +8,9 @@
 // Notes to Grader: none
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
-import java.io.StringReader;
-import java.util.List;
 import java.util.Scanner;
 
 public class Frontend {
@@ -105,10 +102,10 @@ public class Frontend {
      * @param scan
      */
     private static void genreMode(Backend b1, Scanner scan) {
-        // displays the genres the user can select
-        System.out.println("Genres: "+b1.getAllGenres());
-        //prompting user to either select or deselect a genre
         while (true) {
+            // displays the genres the user can select
+            System.out.println("Genres: "+b1.getAllGenres());
+            //prompting user to either select or deselect a genre
             System.out.println("Currently selected: "+b1.getGenres());
             System.out.println("Do you want to select or deselect a genre? select/deselect/exit(x)");
             String selectOrDeselect = scan.nextLine();
@@ -155,45 +152,70 @@ public class Frontend {
      * @param b
      */
     private static void ratingsMode(Scanner scan, Backend b) {
-        // the rating you want to either select or deselect
-        System.out.println("Please enter a rating like what is displayed below!");
-        // gets the ratings that the movies have
-        System.out.println(b1.getAvgRatings());
-        // enter a movie rating
-        System.out.println("Please enter a movie rating between 0-10");
-        String rating = scan.nextLine();
-        // converts the string rating into an integer to check if the rating is appropriate
-        int intRating = Integer.parseInt(rating);
-        // checks to see if the rating entered is between 0 and 10
-        if(intRating>10 || intRating<0) {
-            System.out.println("Please enter a valid rating!");
-            return;
-        }
-        // prompts user to see if they want to either select or deselect the rating
-        System.out.println("Would you like to select or deselect the rating? select/deselect");
-        String ratingSelector = scan.nextLine();
-        // checks to see if the user wants to select the rating
-        if(ratingSelector.equals("select")) {
-            // adds the rating
-            b.addAvgRating(rating);
-        }
-        // checks to see if the user wants to deselect the rating
-        else if(ratingSelector.equals("deselect")) {
-            // removes the rating
-            b.removeAvgRating(rating);
-        }
-        // if the user provides the program with an improper command
-        else {
-            System.out.println("Incorrect command. Please try again!");
-            return;
+        while (true) {
+            // the rating you want to either select or deselect
+            System.out.println("Ratings: [\"0\", \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"10\"]");
+            // gets the ratings that the movies have
+            System.out.println("Currently selected: " + b1.getAvgRatings());
+
+            // prompts user to see if they want to either select or deselect the rating
+            System.out.println("Would you like to select or deselect the rating? select/deselect");
+            String ratingSelector = scan.nextLine();
+            // checks to see if the user wants to select the rating
+            if (ratingSelector.equals("select")) {
+                while (true) {
+                    // enter a movie rating
+                    System.out.println("Please enter a movie rating [0-10] to select (or x to exit): ");
+                    String rating = scan.nextLine();
+                    // if user wants to exit, return to regular ratings mode
+                    if (rating.equals("x"))
+                        break;
+                    // converts the string rating into an integer to check if the rating is appropriate
+                    int intRating = Integer.parseInt(rating);
+                    // checks to see if the rating entered is between 0 and 10 and not already in selected ratings
+                    if (intRating <= 10 && intRating >= 0 && !b1.getAvgRatings().contains(rating)) {
+                        // adds the rating
+                        b.addAvgRating(rating);
+                    }
+                    else
+                        System.out.println("Rating is invalid or already selected.");
+                }
+            }
+            // checks to see if the user wants to deselect the rating
+            else if (ratingSelector.equals("deselect")) {
+                while (true) {
+                    // enter a movie rating
+                    System.out.println("Please enter a movie rating [0-10] to deselect (or x to exit): ");
+                    String rating = scan.nextLine();
+                    // if user wants to exit, return to regular ratings mode
+                    if (rating.equals("x"))
+                        break;
+                    // converts the string rating into an integer to check if the rating is appropriate
+                    int intRating = Integer.parseInt(rating);
+                    // checks to see if the rating entered is between 0 and 10 and is currently selected
+                    if (intRating <= 10 && intRating >= 0 && b1.getAvgRatings().contains(rating)) {
+                        // removes the rating
+                        b.removeAvgRating(rating);
+                    }
+                    else
+                        System.out.println("Rating is invalid or not currently selected.");
+                }
+            } else if (ratingSelector.equals("x"))
+                break;
+                // if the user provides the program with an improper command
+            else {
+                System.out.println("Incorrect command. Please try again!");
+            }
         }
     }
 
     private static void displayThreeMovies(int index) {
         int indexOfThree = 0;
         for (int i = index; i < index+3; i++) {
-            System.out.println((i+1)+") "+b1.getThreeMovies(index).get(indexOfThree).getTitle());
+            MovieInterface movie = b1.getThreeMovies(index).get(indexOfThree);
+            System.out.printf((i+1)+") %-40.40s  %-40.40s  "+movie.getAvgVote()+"%n", movie.getTitle(), movie.getGenres());
             indexOfThree++;
         }
+        System.out.println();
     }
 }
