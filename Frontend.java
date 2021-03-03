@@ -28,44 +28,41 @@ public class Frontend {
         b1 = new Backend(filein);
     }
 
+    public void run() {
 
-    public static void main(String[] args) {
-        // instantiating the frontend object
-        Frontend frontend = new Frontend();
-
-        //((Frontend)frontend).run(new Backend(new StringReader("title,original_title,year,genre,duration,country,language,director")));
-        //FileReader reader = new FileReader("src/movies.csv");
         // welcome message
         System.out.println("Welcome to Movie Mapper!");
         // importing scanner
         Scanner scan = new Scanner(System.in);
-        //startBaseMode(frontend, b1);
         // prompting user with the commands they can use and what they mean
-        baseMode(0, frontend, b1, scan);
+        baseMode(0, b1, scan);
 
+    }
+    public static void main(String[] args) {
+        // instantiating the frontend object
+        Frontend frontend = new Frontend();
+        frontend.run();
     }
 
     /**
      * Helper method with functionality for the Base mode when the Hash table is null
-     * @param frontend
      * @param b1
      */
-    private static void startBaseMode(Frontend frontend, Backend b1) {
+    private static void startBaseMode(Backend b1) {
         System.out.println("\nNo movies are selected\n");
     }
 
     /**
      * Helper method with functionality for the Base mode when the Hash table is not null
      * @param index
-     * @param frontend
      * @param b1
      * @param scan
      */
-    private static void baseMode(int index, Frontend frontend, Backend b1, Scanner scan) {
+    private static void baseMode(int index, Backend b1, Scanner scan) {
         // while loop continuously runs
         while(true) {
             if(b1.getThreeMovies(index).isEmpty()){
-                startBaseMode(frontend, b1);
+                startBaseMode(b1);
             }else {
                 displayThreeMovies(index);
             }
@@ -86,11 +83,11 @@ public class Frontend {
                 return;
             }
             else if (Integer.parseInt(s) <= b1.getNumberOfMovies() && Integer.parseInt(s) > 0) {
-                baseMode(Integer.parseInt(s) - 1, frontend, b1, scan);
+                baseMode(Integer.parseInt(s) - 1, b1, scan);
                 return;
             }
             else if (Integer.parseInt(s) <= 0 || Integer.parseInt(s) > b1.getNumberOfMovies()) {
-                System.out.println("Invalid rank - there are no movies at this rank.");
+                System.out.println("\nInvalid rank - there are no movies at this rank.\n");
             }
             // if the user provides the program with an improper command
             else {
@@ -171,6 +168,8 @@ public class Frontend {
                     System.out.println("Please enter a movie rating [0-9] to select (or x to exit): ");
                     String rating = scan.nextLine();
                     // if user wants to exit, return to regular ratings mode
+                    if (rating.equals(""))
+                        continue;
                     if (rating.equals("x"))
                         break;
                     // converts the string rating into an integer to check if the rating is appropriate
