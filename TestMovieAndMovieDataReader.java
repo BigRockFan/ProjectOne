@@ -1,3 +1,72 @@
+// --== CS400 File Header Information ==--
+// Name: <Jacopo Franciosi>
+// Email: <jfranciosi@wisc.edu>
+// Team: <Red>
+// Group: <your groups name: N/A>
+// TA: <Xinyi>
+// Lecturer: <Gary D.>
+// Notes to Grader: <N/A>
+
+import java.io.StringReader;
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
+
+/**
+ * This class contains a set of tests for the MovieInterface and MovieDataReaderInterface
+ * implementation of the Movie Mapper project.
+ */
+public class TestMovieAndMovieDataReader {
+
+        MovieDataReaderInterface readerToTest;
+
+        public static void main(String[] args) {
+                (new TestMovieAndMovieDataReader()).runTests();
+        }
+
+        /**
+         * This method calls all of the test methods in the class and ouputs pass / fail
+         * for each test.
+         */
+        public void runTests() {
+                // instantiate reader to test once it is implemented
+                readerToTest = null; //new MovieDataReader();
+
+                // add all tests to this method
+                if (this.testReaderNumberOfMovies()) {
+                        System.out.println("Test number of movies: PASSED");
+                } else {
+                        System.out.println("Test number of movies: FAILED");
+                }
+                if (this.testReaderMovieTitles()) {
+                        System.out.println("Test movie titles: PASSED");
+                } else {
+                        System.out.println("Test movie titles: FAILED");
+                }
+                if (this.testMovieOrder()) {
+                        System.out.println("Test movie order: PASSED");
+                } else {
+                        System.out.println("Test movie order: FAILED");
+                }
+                if (this.testGetters()) {
+                        System.out.println("Test getter methods: PASSED");
+                } else {
+                        System.out.println("Test getter methods: FAILED");
+                }
+                if (this.testCompareTo()) {
+                        System.out.println("Test compareTo method: PASSED");
+                } else {
+                        System.out.println("Test compareTo method: FAILED");
+                }
+        }
+
+        /**
+         * This test reads in 3 movies and tests whether the list of movies
+         * returned is of size 3. It fails if the size is not 3 or if an
+         * exception occurs while reading in the movies.
+         * @return true if the test passed, false if it failed
+         */
+        public boolean testReaderNumberOfMovies() {
                 List<MovieInterface> movieList;
                 try {
                         movieList = readerToTest.readDataSet(new StringReader(
@@ -8,24 +77,24 @@
                         ));
                 } catch (Exception e) {
                         e.printStackTrace();
-                        // test failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                        // test failed
                         return false;
                 }
                 if (movieList.size() == 3) {
-                        // test passed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                        // test passed
                         return true;
                 } else {
-                        // test failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                        // test failed
                         return false;
                 }
         }
 
-    /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-         * This test reads in 3 movies and tests whether the list of movies                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-         * contains all 3 titles of the source data in any order. It fails                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-         * if the list returned is missing one or more titles or if an                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-         * exception occurs while reading in the data.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-         * @return true if the test passed, false if it failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+    /**
+         * This test reads in 3 movies and tests whether the list of movies
+         * contains all 3 titles of the source data in any order. It fails
+         * if the list returned is missing one or more titles or if an
+         * exception occurs while reading in the data.
+         * @return true if the test passed, false if it failed
          */
         public boolean testReaderMovieTitles() {
                 List<MovieInterface> movieList;
@@ -38,33 +107,33 @@
                         ));
                 } catch (Exception e) {
                         e.printStackTrace();
-                        // test failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                        // test failed
                         return false;
                 }
                 String title1 = "The Source of Shadows";
                 String title2 = "The Insurrection";
                 String title3 = "Valley Girl";
                 boolean equalOne = true;
-                // check if first movie is has of the above titles                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                // check if first movie is has of the above titles
                 equalOne = equalOne && (title1.equals(movieList.get(0).getTitle()) ||
                                                                 title2.equals(movieList.get(0).getTitle()) ||
                                                                 title3.equals(movieList.get(0).getTitle()));
-                // check if second movie is has of the above titles                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                // check if second movie is has of the above titles
                 equalOne = equalOne && (title1.equals(movieList.get(1).getTitle()) ||
                                                                 title2.equals(movieList.get(1).getTitle()) ||
                                                                 title3.equals(movieList.get(1).getTitle()));
-                // check if third movie is has of the above titles                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                // check if third movie is has of the above titles
                 equalOne = equalOne && (title1.equals(movieList.get(2).getTitle()) ||
                                                                 title2.equals(movieList.get(2).getTitle()) ||
                                                                 title3.equals(movieList.get(2).getTitle()));
-                // true if the three movies have the right titles                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                // true if the three movies have the right titles
                 return equalOne;
         }
 
-        /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-         * This test reads in 3 movies, then sorts them. It then checks whether                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-         * the default sorting order is descending based on the average ratings.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-         * @return true if the test passed, false if it failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+        /**
+         * This test reads in 3 movies, then sorts them. It then checks whether
+         * the default sorting order is descending based on the average ratings.
+         * @return true if the test passed, false if it failed
          */
         public boolean testMovieOrder() {
                 List<MovieInterface> movieList;
@@ -77,26 +146,26 @@
                         ));
                 } catch (Exception e) {
                         e.printStackTrace();
-                        // test failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                        // test failed
                         return false;
                 }
                 Collections.sort(movieList);
                 double lastRating = 11.0;
                 for (MovieInterface movie : movieList) {
                         if (movie.getAvgVote() > lastRating) {
-                                // test fails                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                // test fails
                                 return false;
                         }
                         lastRating = movie.getAvgVote();
                 }
-                // test passes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                // test passes
                 return true;
         }
 
-        // TODO: Data Wrangler, add at least 2 more tests                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-        /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-        *This test reads in 3 movies and checks that the getter methods(all but the getName()) are correct.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-        *@return true if the test passed, false if it failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+        // TODO: Data Wrangler, add at least 2 more tests
+        /**
+        *This test reads in 3 movies and checks that the getter methods(all but the getName()) are correct. 
+        *@return true if the test passed, false if it failed
         */
         public boolean testGetters(){
                 List<MovieInterface> movieList;
@@ -109,7 +178,7 @@
                         ));
                  } catch (Exception e) {
                         e.printStackTrace();
-                        // test failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                        // test failed
                         return false;
                 }
                 Integer m1Yr = Integer.valueOf(2020);
@@ -140,7 +209,7 @@
                 String m1Des = "A series of stories woven together by one of our most primal fears, the fear of the unknown.";
                 String m2Des = "The director of the largest media company wants to expose how left-wing powers use film to control populations.";
                 String m3Des = "Set to a new wave '80s soundtrack, a pair of young lovers from different backgrounds defy their parents and friends to stay together. A musical adaptation of the 1983 film.";
-                if (!m1Des.equals(movieList.get(0).getDescription()) || !m2Des.equals(movieList.get(1).getDescription())|| !m3Des.equals(movieList.get(2).getDescription())) return false;
+                if (!m1Des.equals(movieList.get(0).getDescription()) || !m2Des.equals(movieList.get(1).getDescription())|| !m3Des.equals(movieList.get(2).getDescription())) return false; 
                 Float m1V = 3.5f;
                 Float m2V = 2.9f;
                 Float m3V = 5.4f;
@@ -148,9 +217,9 @@
                 return true;
          }
 
-        /**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-        * This method tests that the compareTo() methods works as intended.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-        * @return true if the test passed, false if it failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+        /**
+        * This method tests that the compareTo() methods works as intended.
+        * @return true if the test passed, false if it failed
         */
         public boolean testCompareTo(){
                 List<MovieInterface> movieList;
@@ -163,7 +232,7 @@
                         ));
                  } catch (Exception e) {
                         e.printStackTrace();
-                        // test failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                        // test failed
                         return false;
                  }
                 List<String> testMovie = new ArrayList<String>();
@@ -175,6 +244,12 @@
                 return true;
         }
 }
+
+
+
+
+
+
 
 
 
