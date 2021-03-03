@@ -19,7 +19,7 @@ public class Frontend {
     public Frontend() {
         BufferedReader filein = null;
         try {
-            FileReader reader = new FileReader("movies.csv");
+            FileReader reader = new FileReader("src/movies.csv");
             filein = new BufferedReader(reader);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -168,7 +168,7 @@ public class Frontend {
             if (ratingSelector.equals("select")) {
                 while (true) {
                     // enter a movie rating
-                    System.out.println("Please enter a movie rating [0-10] to select (or x to exit): ");
+                    System.out.println("Please enter a movie rating [0-9] to select (or x to exit): ");
                     String rating = scan.nextLine();
                     // if user wants to exit, return to regular ratings mode
                     if (rating.equals("x"))
@@ -176,7 +176,7 @@ public class Frontend {
                     // converts the string rating into an integer to check if the rating is appropriate
                     int intRating = Integer.parseInt(rating);
                     // checks to see if the rating entered is between 0 and 10 and not already in selected ratings
-                    if (intRating <= 10 && intRating >= 0 && !b1.getAvgRatings().contains(rating+".0")) {
+                    if (intRating < 10 && intRating >= 0 && !b1.getAvgRatings().contains(rating+".0")) {
                         // adds the rating
                         b.addAvgRating(rating+".0");
                     }
@@ -188,7 +188,7 @@ public class Frontend {
             else if (ratingSelector.equals("deselect")) {
                 while (true) {
                     // enter a movie rating
-                    System.out.println("Please enter a movie rating [0-10] to deselect (or x to exit): ");
+                    System.out.println("Please enter a movie rating [0-9] to deselect (or x to exit): ");
                     String rating = scan.nextLine();
                     // if user wants to exit, return to regular ratings mode
                     if (rating.equals("x"))
@@ -196,7 +196,7 @@ public class Frontend {
                     // converts the string rating into an integer to check if the rating is appropriate
                     int intRating = Integer.parseInt(rating);
                     // checks to see if the rating entered is between 0 and 10 and is currently selected
-                    if (intRating <= 10 && intRating >= 0 && b1.getAvgRatings().contains(rating+".0")) {
+                    if (intRating < 10 && intRating >= 0 && b1.getAvgRatings().contains(rating+".0")) {
                         // removes the rating
                         b.removeAvgRating(rating+".0");
                     }
