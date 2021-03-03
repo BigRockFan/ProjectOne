@@ -237,8 +237,8 @@ public class TestMovieAndMovieDataReader {
                  }
                 List<String> testMovie = new ArrayList<String>();
                 testMovie.add("Horror");
-                Movie m1 = new Movie("The Source of Shadows",2020,testMovie,"Ryan Bury, Jennifer Bonior","A series of stories woven together by one of our most primal fears, the fear of the unknown.",3.5);
-                Movie m2 = new Movie("Different",2020,testMovie,"Ryan Bury, Jennifer Bonior","A series of stories woven together by one of our most primal fears, the fear of the unknown.",3.5);
+                Movie m1 = new Movie("The Source of Shadows",2020,testMovie,"Ryan Bury, Jennifer Bonior","A series of stories woven together by one of our most primal fears, the fear of the unknown.",3.5f);
+                Movie m2 = new Movie("Different",2020,testMovie,"Ryan Bury, Jennifer Bonior","A series of stories woven together by one of our most primal fears, the fear of the unknown.",3.5f);
                 if (m1.compareTo(m2) <= 0) return false;
                 if (movieList.get(0).compareTo(m1) != 0) return false;
                 return true;
