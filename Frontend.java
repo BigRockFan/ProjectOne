@@ -19,7 +19,7 @@ public class Frontend {
     public Frontend() {
         BufferedReader filein = null;
         try {
-            FileReader reader = new FileReader("src/movies.csv");
+            FileReader reader = new FileReader("movies.csv");
             filein = new BufferedReader(reader);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
