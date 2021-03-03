@@ -153,6 +153,7 @@ public class Backend implements BackendInterface {
 		}
 		// We need to make sure genres is not empty before proceeding
 		// to remove or add anything  
+		List<MovieInterface> toRemove = new ArrayList<MovieInterface>(); // will be used later 
 		if (!genres.isEmpty()) {
 			if (ratings.isEmpty()) { // Confirms that only movies with selected genres will be added
 				for (String g: genres) {
@@ -166,15 +167,18 @@ public class Backend implements BackendInterface {
 			}
 			// if both toReturn and genres are not empty, then we should 
 			// remove movies from toReturn that don't have the selected genres.
-			for (int a = 0; a < toReturn.size(); a++) {
-				for (int i = 0; i < toReturn.get(a).getGenres().size(); i++) {
-					if (genres.contains(toReturn.get(a).getGenres().get(i)))
+			for (MovieInterface m: toReturn) {
+				for (int i = 0; i < m.getGenres().size(); i++) {
+					if (genres.contains(m.getGenres().get(i))) //checking if genres contains a movie's genres 
 						break;
-					if (i == toReturn.get(a).getGenres().size()-1)
-						toReturn.remove(a);
-				}
-				
+					if (i == m.getGenres().size()-1) // if genres doesn't contain a movie's genres, it will be removed
+						toRemove.add(m);
+				}		
 			}
+		}
+		// Traversing backwards to remove toRemove's elements from toReturn
+		for (int i = toRemove.size()-1; i >= 0; i--) {
+			toReturn.remove(toRemove.get(i));
 		}
 		return toReturn;
 	}
