@@ -43,8 +43,22 @@ public class TestMovieAndMovieDataReader {
                 } else {
                         System.out.println("Test movie titles: FAILED");
                 }
+                if (this.testMovieOrder()) {
+                        System.out.println("Test movie order: PASSED");
+                } else {
+                        System.out.println("Test movie order: FAILED");
+                }
+                if (this.testGetters()) {
+                        System.out.println("Test getter methods: PASSED");
+                } else {
+                        System.out.println("Test getter methods: FAILED");
+                }
+                if (this.testCompareTo()) {
+                        System.out.println("Test compareTo method: PASSED");
+                } else {
+                        System.out.println("Test compareTo method: FAILED");
+                }
         }
-
         /**
          * This test reads in 3 movies and tests whether the list of movies
          * returned is of size 3. It fails if the size is not 3 or if an
@@ -206,7 +220,7 @@ public class TestMovieAndMovieDataReader {
         * This method tests that the compareTo() methods works as intended.
         * @return true if the test passed, false if it failed
         */
-         public boolean testCompareTo(){
+        public boolean testCompareTo(){
                 List<MovieInterface> movieList;
                  try {
                         movieList = readerToTest.readDataSet(new StringReader(
@@ -222,12 +236,10 @@ public class TestMovieAndMovieDataReader {
                  }
                 List<String> testMovie = new ArrayList<String>();
                 testMovie.add("Horror");
-                MovieInterface m1 = new MovieInterface("The Source of Shadows",2020,testMovie,"Ryan Bury, Jennifer Bonior","A series of stories woven together by o>
-                MovieInterface m2 = new MovieInterface("Different",2020,testMovie,"Ryan Bury, Jennifer Bonior","A series of stories woven together by one of our mo>
+                Movie m1 = new Movie("The Source of Shadows",2020,testMovie,"Ryan Bury, Jennifer Bonior","A series of stories woven together by one of our most pri>
+                Movie m2 = new Movie("Different",2020,testMovie,"Ryan Bury, Jennifer Bonior","A series of stories woven together by one of our most primal fears, t>
                 if (m1.compareTo(m2) <= 0) return false;
                 if (movieList.get(0).compareTo(m1) != 0) return false;
                 return true;
         }
 }
-
-
