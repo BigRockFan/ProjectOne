@@ -142,21 +142,21 @@ public class Backend implements BackendInterface {
 	 */
 	private List<MovieInterface> getSelectedMovies() {
 		List<MovieInterface> toReturn = new ArrayList<MovieInterface>(); // the list we're going to return 
-		// this nested for loop populates toReturn by adding all the movies with the selected genres 
-		for (String g: genres) {
-			List<MovieInterface> movies = genreHash.get(g); // list of movies with a specific genre 
+		// this nested for loop populates toReturn by adding all the movies with the selected ratings 
+		for (String r: ratings) {
+			List<MovieInterface> movies = rateHash.get(r); // list of movies with a specific rating range  
 			for (MovieInterface m: movies) {
 				if (!toReturn.contains(m)) // ensures that there are no repeats 
 					toReturn.add(m);
-				// Note: if genres is empty, so is toReturn
+				// Note: if ratings is empty, so is toReturn
 			}
 		}
-		// We need to make sure ratings is not empty before proceeding
+		// We need to make sure genres is not empty before proceeding
 		// to remove or add anything  
-		if (!ratings.isEmpty()) {
-			if (genres.isEmpty()) { // Confirms that only movies with selected ratings will be added
-				for (String r: ratings) {
-					List<MovieInterface> movies = rateHash.get(r); // list of movies with a specific rating 
+		if (!genres.isEmpty()) {
+			if (ratings.isEmpty()) { // Confirms that only movies with selected genres will be added
+				for (String g: genres) {
+					List<MovieInterface> movies = genreHash.get(g); // list of movies with a specific genre 
 					for (MovieInterface m: movies) {
 						if (!toReturn.contains(m)) // ensures that there are no repeats
 							toReturn.add(m);			
@@ -164,27 +164,16 @@ public class Backend implements BackendInterface {
 				}
 				return toReturn;
 			}
-			// if both toReturn and ratings are not empty, then we should 
-			// remove movies from toReturn that don't have the selected ratings.
-			
-			// First, we create a local list that has all the ratings as Floats
-			List<Float> rateNS = new ArrayList<Float>();
-			for (String r: ratings) {
-				rateNS.add(Float.parseFloat(r));
-			}
-			// Then, we traverse through both toReturn and rateNS
-			for (MovieInterface m: toReturn) {
-				for (int i = 0; i < rateNS.size(); i++) {
-					Float vote = m.getAvgVote();
-					// We check if a movie's vote falls in at least one of the 
-					// selected rating ranges.
-					if (vote < rateNS.get(i)+1 && vote >= rateNS.get(i))
+			// if both toReturn and genres are not empty, then we should 
+			// remove movies from toReturn that don't have the selected genres.
+			for (int a = 0; a < toReturn.size(); a++) {
+				for (int i = 0; i < toReturn.get(a).getGenres().size(); i++) {
+					if (genres.contains(toReturn.get(a).getGenres().get(i)))
 						break;
-					// if a movie's vote doesn't fall within any range after iterating 
-					// through every rating, we can remove it.
-					if (i == rateNS.size()-1)
-						toReturn.remove(m);
+					if (i == toReturn.get(a).getGenres().size()-1)
+						toReturn.remove(a);
 				}
+				
 			}
 		}
 		return toReturn;
