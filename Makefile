@@ -44,7 +44,7 @@ testBackend: TestBackend.class
 testData: TestMovieAndMovieDataReader.class
 	java TestMovieAndMovieDataReader
 
-TestFrontend.class: testFrontend.java
+TestFrontend.class: TestFrontend.java
 	javac TestFrontend.java
 
 TestBackend.class: TestBackend.java
