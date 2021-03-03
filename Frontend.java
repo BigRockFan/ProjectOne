@@ -28,7 +28,7 @@ public class Frontend {
         b1 = new Backend(filein);
     }
 
-    public void run() {
+    public void run(Backend b1) {
 
         // welcome message
         System.out.println("Welcome to Movie Mapper!");
@@ -41,7 +41,7 @@ public class Frontend {
     public static void main(String[] args) {
         // instantiating the frontend object
         Frontend frontend = new Frontend();
-        frontend.run();
+        frontend.run(b1);
     }
 
     /**
